@@ -74,5 +74,21 @@ app.MapGet("/api/dogs", () =>
     });
 });
 
+app.MapGet("/api/dogs/{id}", (int id) =>
+{
+    var dog = dogs.FirstOrDefault(dog => dog.Id == id);
+    if (dog == null)
+    {
+        return Results.NotFound(new { message = "Dog not found."});
+    }
+
+    return Results.Ok(new DogDTO
+    {
+        Id = dog.Id,
+        Name = dog.Name,
+        City = dog.City,
+        Walker = dog.Walker
+    });
+});
 
 app.Run();
